@@ -106,17 +106,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i(TAG, String.valueOf(fields));
         DAL dal = new DAL(this);
         cursor = dal.loadAll();
-        Log.i(TAG, " " + cursor.getCount());
+        Log.i(TAG, "Número de registros: " + cursor.getCount());
+
+        Log.i(TAG, "Cursor: " + (cursor == null));
         if (cursor.getCount() == 0) {
             getContacts();
         } else {
-            if (cursor.moveToFirst()) {
-                while (cursor.isAfterLast()) {
-                    String name = cursor.getString(cursor.getColumnIndex(CreateDatabase.NAME));
-                    Log.i(TAG, name);
-                }
+            while (!cursor.isAfterLast()) {
+                String name = cursor.getString(cursor.getColumnIndex(CreateDatabase.NAME));
+                String email = cursor.getString(cursor.getColumnIndex(CreateDatabase.EMAIL));
+                double lat = cursor.getFloat(cursor.getColumnIndex(CreateDatabase.LATITUDE));
+                double lon = cursor.getFloat(cursor.getColumnIndex(CreateDatabase.LONGITUDE));
+                contactList.add(new Contato(name, email, lat, lon));
+                Log.i(TAG, name);
+                cursor.moveToNext();
             }
         }
+
+        mMap = googleMap;
 
         LatLng user = new LatLng(0, 0);
         for (Contato i : contactList) {
@@ -125,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(user).title(i.getName() + " - " + i.getEmail()));
         }
 
-        mMap = googleMap;
+
         googleMap.setOnMarkerClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(user));
     }

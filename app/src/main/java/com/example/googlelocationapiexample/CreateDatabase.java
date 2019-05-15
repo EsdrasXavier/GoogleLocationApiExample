@@ -12,7 +12,7 @@ public class CreateDatabase extends SQLiteOpenHelper {
     public static final String NAME = "name";
     public static final String EMAIL = "email";
     public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "lagitude";
+    public static final String LONGITUDE = "longitude";
 
     private static final int VERSION = 1;
 

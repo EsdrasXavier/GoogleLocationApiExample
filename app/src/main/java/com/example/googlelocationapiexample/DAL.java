@@ -113,7 +113,7 @@ class DAL {
         // Consulta equivalente:
         // String sql = "SELECT _id, title FROM book";
         // cursor = db.rawQuery(sql, null);
-        cursor = db.query(CreateDatabase.TABLE, fields, null,
+        cursor = db.query(CreateDatabase.TABLE, null, null,
                 null, null, null,
                 null, null);
 
